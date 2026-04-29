@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Практична робота</title>
+</head>
+<body>
+    <h1>pr2</h1>
+    <p>(F12)</p>
+
+    <script>
+        
+        // 1
+        let age = Number(prompt("1: Введіть ваш вік:"));
+        if (age < 18) {
+            alert("Вам заборонено вхід");
+        } else if (age >= 18 && age <= 65) {
+            alert("Ласкаво просимо!");
+        } else {
+            alert("Будь ласка, будьте обережні!");
+        }
+        
+        // 2
+        let n = Number(prompt("2: Введіть число n для пошуку парних:"));
+        console.log("Завдання 2");
+        for (let i = 2; i <= n; i += 2) {
+            console.log(i);
+        }
+        
+        // 3
+        let nFact = Number(prompt("3: Введіть число для факторіалу:"));
+        let factorial = 1;
+        let j = 1;
+        while (j <= nFact) {
+            factorial *= j;
+            j++;
+        }
+        console.log("--- Завдання 3 ---");
+        console.log(`Факторіал ${nFact}! = ${factorial}`);
+
+        // 4
+        let numA = Number(prompt("4: Число A:"));
+        let numB = Number(prompt("4: Число B:"));
+        let op = prompt("Операція (+, -, *, /):");
+        let res;
+
+        switch (op) {
+            case "+": 
+                res = numA + numB; 
+                break;
+            case "-": 
+                res = numA - numB; 
+                break;
+            case "*": 
+                res = numA * numB; 
+                break;
+            case "/": 
+                res = numB !== 0 ? numA / numB : "Ділення на 0!"; 
+                break;
+            default: 
+                res = "Помилка";
+        }
+
+        alert(`Результат калькулятора: ${res}`);
+
+    </script>
+</body>
+</html>
