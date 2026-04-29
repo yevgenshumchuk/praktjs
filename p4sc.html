@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Таймер</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    button { margin: 5px; }
+    #timeDisplay { font-size: 24px; margin: 10px 0; }
+  </style>
+</head>
+<body>
+
+<h2>Таймер зворотного відліку</h2>
+
+<input type="number" id="timeInput" placeholder="Секунди">
+<button id="startBtn">Старт</button>
+<button id="pauseBtn">Пауза</button>
+<button id="increaseBtn">+10 сек</button>
+<button id="decreaseBtn">-10 сек</button>
+
+<div id="timeDisplay">0</div>
+<p id="message"></p>
+<p id="error" style="color:red;"></p>
+
+<script>
+let time = 0;
+let timer = null;
+
+const input = document.getElementById("timeInput");
+const display = document.getElementById("timeDisplay");
+const message = document.getElementById("message");
+const error = document.getElementById("error");
+
+function updateDisplay() {
+  display.textContent = time;
+}
+
+document.getElementById("startBtn").addEventListener("click", () => {
+  const inputValue = parseInt(input.value);
+
+  if (!timer) {
+    if (!time) {
+      if (isNaN(inputValue) || inputValue <= 0) {
+        error.textContent = "Введіть коректний час!";
+        return;
+      }
+      time = inputValue;
+    }
+
+    error.textContent = "";
+    message.textContent = "";
+
+    timer = setInterval(() => {
+      time--;
+      updateDisplay();
+
+      if (time <= 0) {
+        clearInterval(timer);
+        timer = null;
+        message.textContent = "Час вийшов!";
+      }
+    }, 1000);
+  }
+});
+
+document.getElementById("pauseBtn").addEventListener("click", () => {
+  clearInterval(timer);
+  timer = null;
+});
+
+document.getElementById("increaseBtn").addEventListener("click", () => {
+  time += 10;
+  updateDisplay();
+});
+
+document.getElementById("decreaseBtn").addEventListener("click", () => {
+  time = Math.max(0, time - 10);
+  updateDisplay();
+});
+
+</script>
+
+</body>
+</html>
