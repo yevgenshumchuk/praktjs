@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Async практика — Виправлено</title>
+</head>
+<body>
+
+<h2>Відкрий консоль (F12)</h2>
+<button onclick="loadData()">Запустити Варіант 1</button>
+<button onclick="processData()">Запустити Варіант 3</button>
+
+<script>
+
+function fetchWithTimeout(url, timeout) {
+  const controller = new AbortController(); 
+  const id = setTimeout(() => controller.abort(), timeout);
+
+  return fetch(url, { signal: controller.signal })
+    .then(res => {
+      clearTimeout(id);
+      return res;
+    })
+    .catch(err => {
+      if (err.name === 'AbortError') throw new Error("Request timeout");
+      throw err;
+    });
+}
+
+async function loadData() {
+  console.log("=== Варіант 1 ===");
+
+  const urls = [
+    "https://jsonplaceholder.typicode.com/posts/1",
+    "https://jsonplaceholder.typicode.com/users/1"
+  ];
+
+  const results = await Promise.allSettled(
+    urls.map(url => fetchWithTimeout(url, 2000))
+  );
+
+  for (const result of results) {
+    if (result.status === "fulfilled") {
+      if (result.value.ok) {
+        const data = await result.value.json();
+        console.log("Успіх:", data);
+      } else {
+        console.log("Помилка HTTP:", result.value.status);
+      }
+    } else {
+      console.log("Помилка:", result.reason.message);
+    }
+  }
+}
+
+function fetchData(id) {
+  return new Promise((resolve) => {
+    const delay = Math.floor(Math.random() * 2000) + 1000;
+    setTimeout(() => {
+      resolve(`Дані для ID ${id} (затримка ${delay} мс)`);
+    }, delay);
+  });
+}
+
+async function processData() {
+  console.log("=== Варіант 3 (Старт) ===");
+
+  console.time("Parallel");
+  const parallel = await Promise.all([
+    fetchData(1),
+    fetchData(2),
+    fetchData(3)
+  ]);
+  console.log("Паралельно отримано:", parallel);
+  console.timeEnd("Parallel");
+
+  console.log("Починаємо послідовне виконання...");
+  console.time("Sequential");
+  for (const id of [4, 5, 6]) {
+    const res = await fetchData(id);
+    console.log(res);
+  }
+  console.timeEnd("Sequential");
+}
+</script>
+
+</body>
+</html>
