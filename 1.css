@@ -1,0 +1,15 @@
+body {
+  text-align: center;
+  padding: 50px;
+  font-family: Arial;
+  transition: 0.5s;
+}
+
+.light {
+  background: white;
+  color: black;
+}
+.dark {
+  background: black;
+  color: white;
+}
