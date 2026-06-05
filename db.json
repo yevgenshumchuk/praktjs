@@ -1,0 +1,17 @@
+{
+  "books": [
+    {
+      "id": "1",
+      "title": "Кайдашева сім'я",
+      "author": "Іван Нечуй-Левицький",
+      "year": "1879"
+    },
+    {
+      "title": "67",
+      "author": "67",
+      "year": "67",
+      "id": "k9brFoO-wRw"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
